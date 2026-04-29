@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advertise With Us - TIME Newsletter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav class="top-nav">
+      <a href="./index.html" class="nav-link">Home</a>
+      <a href="./advertise.html" class="nav-link active">Advertise With Us</a>
+    </nav>
+
+    <main class="ad-page">
+      <section class="ad-hero">
+        <p class="time-badge">TIME Newsletter</p>
+        <h1>Advertise With Us</h1>
+        <p>
+          Reach high-intent readers with premium brand placements across our daily and weekly
+          newsletters.
+        </p>
+      </section>
+
+      <section class="ad-form-wrap">
+        <h2>Brand Partnership Inquiry</h2>
+        <p class="ad-subtitle">
+          Fill this form and our partnerships team will get back within 2 business days.
+        </p>
+
+        <form id="advertiseForm" class="ad-form">
+          <label>
+            Company Name
+            <input id="companyName" type="text" required />
+          </label>
+          <label>
+            Contact Person
+            <input id="contactName" type="text" required />
+          </label>
+          <label>
+            Work Email
+            <input id="contactEmail" type="email" required />
+          </label>
+          <label>
+            Company Website
+            <input id="companyWebsite" type="url" placeholder="https://example.com" required />
+          </label>
+          <label>
+            Industry
+            <input id="companyIndustry" type="text" required />
+          </label>
+          <label>
+            Estimated Monthly Budget (USD)
+            <input id="monthlyBudgetUsd" type="number" min="0" step="100" required />
+          </label>
+          <label class="full-width">
+            Campaign Goals / Notes
+            <textarea id="campaignGoals" rows="4" placeholder="Tell us about campaign goals, audience fit, timeline, and desired outcomes." required></textarea>
+          </label>
+
+          <button type="submit" class="save-btn">Submit Inquiry</button>
+          <p id="adFormMessage" class="form-message"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="./advertise.js"></script>
+  </body>
+</html>

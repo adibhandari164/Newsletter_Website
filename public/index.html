@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TIME Newsletter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="./index.html" class="brand-text">TIME Newsletter</a>
+        <nav class="header-nav" aria-label="Main navigation">
+          <a href="./index.html" class="header-link active">Home</a>
+          <a href="./advertise.html" class="header-link">Advertise With Us</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="home-main">
+      <section class="hero-editorial">
+        <div class="hero-copy">
+          <p class="hero-eyebrow">TIME NEWSLETTERS</p>
+          <h1 class="hero-title">Understand what matters — before the day moves on.</h1>
+          <p class="hero-subtitle">
+            A smarter TIME newsletter experience, personalized around the stories, sectors, and
+            signals you care about most.
+          </p>
+          <form id="subscriptionForm" class="email-form">
+            <label for="emailInput" class="visually-hidden">Email address</label>
+            <input
+              id="emailInput"
+              type="email"
+              aria-label="Email address"
+              placeholder="Enter your email"
+              required
+            />
+            <button id="subscribeBtn" type="submit">Subscribe</button>
+          </form>
+          <p id="heroMessage" class="hero-message" role="status" aria-live="polite"></p>
+          <ul class="trust-cues">
+            <li>Curated by topic</li>
+            <li>Personalized to your interests</li>
+            <li>Built for daily and weekly readers</li>
+          </ul>
+        </div>
+
+        <aside class="newsletter-preview" aria-label="Newsletter preview">
+          <p class="preview-label">Today's Briefing</p>
+          <h2>Global volatility, AI regulation, and a healthcare rebound</h2>
+          <div class="preview-story">
+            <span>Politics</span>
+            <p>Election strategy resets as policy pressure rises across major economies.</p>
+          </div>
+          <div class="preview-story">
+            <span>AI</span>
+            <p>Regulators move toward shared safety standards for frontier models.</p>
+          </div>
+          <div class="preview-story">
+            <span>Health</span>
+            <p>Biotech and care providers post signals of renewed growth this quarter.</p>
+          </div>
+          <p class="preview-footer">Personalized for your interests</p>
+        </aside>
+      </section>
+
+      <section class="features-section" aria-label="How it works">
+        <article class="feature-card">
+          <h3>Choose your topics</h3>
+          <p>
+            Select the subjects you care about most, from politics and business to AI, health,
+            climate, and culture.
+          </p>
+        </article>
+        <article class="feature-card">
+          <h3>Set your rhythm</h3>
+          <p>Choose daily briefings, weekly roundups, or focused topic updates.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Get smarter briefings</h3>
+          <p>Your newsletter experience improves as TIME learns what you read and value.</p>
+        </article>
+      </section>
+
+      <section class="interest-blocks-section" aria-label="Interest categories">
+        <div class="topic-selection-header">
+          <div>
+            <h2>Choose Your Interests</h2>
+            <p>
+              Select the topics you care about most. We’ll personalize your briefings around them.
+            </p>
+          </div>
+          <button type="button" id="selectAllTopicsBtn" class="select-all-pill">Select All</button>
+        </div>
+        <div id="homeTopicCardGrid" class="home-topic-card-grid"></div>
+      </section>
+    </main>
+
+    <div id="questionModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-content">
+        <button id="closeModalBtn" class="close-btn" aria-label="Close">&times;</button>
+        <h2>Tell us your interests</h2>
+        <p class="modal-subtitle">A few quick questions to personalize your TIME newsletters.</p>
+        <div class="step-status">
+          <p id="stepLabel" class="step-label">Page 1 of 5 - Frequency</p>
+          <div class="step-dots" aria-hidden="true">
+            <span class="step-dot active" data-step-dot="1"></span>
+            <span class="step-dot" data-step-dot="2"></span>
+            <span class="step-dot" data-step-dot="3"></span>
+            <span class="step-dot" data-step-dot="4"></span>
+            <span class="step-dot" data-step-dot="5"></span>
+          </div>
+        </div>
+
+        <form id="detailsForm" class="details-form">
+          <fieldset class="form-step" data-step="1">
+            <legend>1) How often do you want to hear from TIME?</legend>
+            <div class="briefing-options">
+              <label class="briefing-option-card">
+                <input type="radio" name="frequency" value="daily" />
+                <span class="briefing-title">Daily briefing</span>
+                <span class="briefing-copy">A short daily digest of the stories.</span>
+              </label>
+              <label class="briefing-option-card">
+                <input type="radio" name="frequency" value="breaking" />
+                <span class="briefing-title">Breaking News Only</span>
+                <span class="briefing-copy">Major stories only.</span>
+              </label>
+              <label class="briefing-option-card">
+                <input type="radio" name="frequency" value="weekly" />
+                <span class="briefing-title">Weekly briefing</span>
+                <span class="briefing-copy">A curated weekly roundup of stories and analysis.</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-step hidden" data-step="2">
+            <legend id="briefingTypeLegend">2) If daily, what kind of daily briefing?</legend>
+            <div id="briefingTypeOptions" class="briefing-options">
+              <label class="briefing-option-card">
+                <input type="radio" name="briefingType" value="general" />
+                <span class="briefing-title">General Daily Briefing</span>
+                <span class="briefing-copy">The biggest stories across politics, business, culture, health, climate, tech, and the world.</span>
+              </label>
+              <label class="briefing-option-card">
+                <input type="radio" name="briefingType" value="focused" />
+                <span class="briefing-title">Focused Daily Briefing</span>
+                <span class="briefing-copy">A daily newsletter focused on specific interests (Politics, AI, Climate, Fashion).</span>
+              </label>
+              <label class="briefing-option-card">
+                <input type="radio" name="briefingType" value="both" />
+                <span class="briefing-title">Both</span>
+                <span class="briefing-copy">Send me general and add focused daily briefing too.</span>
+              </label>
+            </div>
+            <div class="step-actions">
+              <button type="button" id="backStepBtn1" class="secondary-btn">Back</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-step hidden" data-step="3">
+            <legend>Choose topics you care about</legend>
+            <p class="topic-help">Select up to 4 topics.</p>
+            <p id="topicSelectionCounter" class="selection-counter">0 of 4 selected</p>
+            <div id="topicSelectionGrid" class="topics-grid"></div>
+            <div class="step-actions">
+              <button type="button" id="backStepBtn2" class="secondary-btn">Back</button>
+              <button type="button" id="nextStepBtn3" class="save-btn" disabled>Continue</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-step hidden" data-step="4">
+            <legend>Any top priorities among them?</legend>
+            <p id="prioritySelectionCounter" class="selection-counter">0 of 2 prioritized</p>
+            <div id="prioritySelectionGrid" class="topics-grid"></div>
+            <div class="step-actions">
+              <button type="button" id="backStepBtn3" class="secondary-btn">Back</button>
+              <button type="button" id="nextStepBtn4" class="save-btn">Next</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-step hidden" data-step="5">
+            <legend>5) Tell us about your professional background</legend>
+            <div class="profile-grid">
+              <label>
+                Industry
+                <select id="industrySelect" required>
+                  <option value="">Select industry</option>
+                  <option>Technology</option>
+                  <option>Healthcare</option>
+                  <option>Finance</option>
+                  <option>Media and Entertainment</option>
+                  <option>Retail and E-commerce</option>
+                  <option>Manufacturing</option>
+                  <option>Education</option>
+                  <option>Government and Public Sector</option>
+                  <option>Consulting</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>
+                Company
+                <input id="companyInput" type="text" placeholder="Company name" required />
+              </label>
+              <label>
+                Role
+                <select id="roleSelect" required>
+                  <option value="">Select role</option>
+                  <option>Founder / Co-founder</option>
+                  <option>C-Level Executive</option>
+                  <option>VP / Director</option>
+                  <option>Manager</option>
+                  <option>Individual Contributor</option>
+                  <option>Consultant / Advisor</option>
+                  <option>Student / Researcher</option>
+                  <option>Other</option>
+                </select>
+              </label>
+            </div>
+            <div class="step-actions">
+              <button type="button" id="backStepBtn4" class="secondary-btn">Back</button>
+              <button type="submit" class="save-btn">Save Preferences</button>
+            </div>
+          </fieldset>
+
+          <p id="formMessage" class="form-message"></p>
+        </form>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

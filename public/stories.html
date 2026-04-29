@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TIME Stories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="./index.html" class="brand-text">TIME Newsletter</a>
+        <nav class="header-nav" aria-label="Main navigation">
+          <a href="./index.html" class="header-link">Home</a>
+          <a href="./stories.html" class="header-link active">Stories</a>
+          <a href="./advertise.html" class="header-link">Advertise With Us</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="stories-main">
+      <section class="stories-hero">
+        <p class="hero-eyebrow">TIME STORIES</p>
+        <h1 id="storiesHeading">All Stories</h1>
+        <p id="storiesSubheading" class="hero-subtitle">
+          Browse editor-selected stories across TIME's most relevant topics.
+        </p>
+      </section>
+
+      <section class="stories-filter-section" aria-label="Story categories">
+        <div id="storiesCategoryGrid" class="stories-category-grid"></div>
+      </section>
+
+      <section aria-label="Stories list">
+        <div id="storiesList" class="stories-grid"></div>
+      </section>
+    </main>
+
+    <script src="./stories.js"></script>
+  </body>
+</html>
