@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TIME Newsletter</title>
+    <title>TIME Newsletter Onboarding</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +17,7 @@
       <div class="header-inner">
         <a href="./index.html" class="brand-text">TIME Newsletter</a>
         <nav class="header-nav" aria-label="Main navigation">
-          <a href="./index.html" class="header-link active">Home</a>
+          <a href="./index.html" class="header-link">Home</a>
           <a href="./advertise.html" class="header-link">Advertise With Us</a>
         </nav>
       </div>
@@ -33,9 +33,9 @@
             signals you care about most.
           </p>
           <form id="subscriptionForm" class="email-form">
-            <label for="emailInput" class="visually-hidden">Email address</label>
+            <label for="email" class="visually-hidden">Email address</label>
             <input
-              id="emailInput"
+              id="email"
               type="email"
               aria-label="Email address"
               placeholder="Enter your email"
@@ -44,120 +44,6 @@
             <button id="subscribeBtn" type="submit">Subscribe</button>
           </form>
           <p id="heroMessage" class="hero-message" role="status" aria-live="polite"></p>
-          <ul class="trust-cues">
-            <li>Curated by topic</li>
-            <li>Personalized to your interests</li>
-            <li>Built for daily and weekly readers</li>
-          </ul>
-        </div>
-
-        <aside class="newsletter-preview" aria-label="Newsletter preview">
-          <p class="preview-label">Today's Briefing</p>
-          <h2>Global volatility, AI regulation, and a healthcare rebound</h2>
-          <div class="preview-story">
-            <span>Politics</span>
-            <p>Election strategy resets as policy pressure rises across major economies.</p>
-          </div>
-          <div class="preview-story">
-            <span>AI</span>
-            <p>Regulators move toward shared safety standards for frontier models.</p>
-          </div>
-          <div class="preview-story">
-            <span>Health</span>
-            <p>Biotech and care providers post signals of renewed growth this quarter.</p>
-          </div>
-          <p class="preview-footer">Personalized for your interests</p>
-        </aside>
-      </section>
-
-      <section class="features-section" aria-label="How it works">
-        <article class="feature-card">
-          <h3>Choose your topics</h3>
-          <p>
-            Select the subjects you care about most, from politics and business to AI, health,
-            climate, and culture.
-          </p>
-        </article>
-        <article class="feature-card">
-          <h3>Set your rhythm</h3>
-          <p>Choose daily briefings, weekly roundups, or focused topic updates.</p>
-        </article>
-        <article class="feature-card">
-          <h3>Get smarter briefings</h3>
-          <p>Your newsletter experience improves as TIME learns what you read and value.</p>
-        </article>
-      </section>
-
-      <section class="interest-blocks-section" aria-label="Interest categories">
-        <div class="topic-selection-header">
-          <div>
-            <h2>Explore TIME Topics</h2>
-            <p>
-              Core themes and story areas available across TIME briefings.
-            </p>
-          </div>
-        </div>
-        <div class="home-topic-card-grid">
-          <a class="home-topic-card" href="./stories.html?interest=Daily%20General%20Briefing">
-            <span class="home-topic-card-label">DAILY</span>
-            <h3 class="home-topic-card-title">Daily General Briefing</h3>
-            <p class="home-topic-card-description">
-              The day’s most important stories, curated across politics, business, culture, science,
-              and global affairs.
-            </p>
-          </a>
-          <a class="home-topic-card" href="./stories.html?interest=World%20News%20%26%20Politics">
-            <span class="home-topic-card-label">TOPIC</span>
-            <h3 class="home-topic-card-title">World News &amp; Politics</h3>
-            <p class="home-topic-card-description">
-              Global affairs, elections, policy, diplomacy, power, and the stories shaping public
-              life.
-            </p>
-          </a>
-          <a class="home-topic-card" href="./stories.html?interest=Tech%20%26%20AI">
-            <span class="home-topic-card-label">TOPIC</span>
-            <h3 class="home-topic-card-title">Tech &amp; AI</h3>
-            <p class="home-topic-card-description">
-              Artificial intelligence, emerging technology, startups, platforms, and the future of
-              innovation.
-            </p>
-          </a>
-          <a class="home-topic-card" href="./stories.html?interest=Business%20%26%20Leadership">
-            <span class="home-topic-card-label">TOPIC</span>
-            <h3 class="home-topic-card-title">Business &amp; Leadership</h3>
-            <p class="home-topic-card-description">
-              Markets, companies, strategy, careers, leadership, and the people shaping business.
-            </p>
-          </a>
-          <a class="home-topic-card" href="./stories.html?interest=Health%20%26%20Science">
-            <span class="home-topic-card-label">TOPIC</span>
-            <h3 class="home-topic-card-title">Health &amp; Science</h3>
-            <p class="home-topic-card-description">
-              Medical breakthroughs, wellness, psychology, research, space, and scientific discovery.
-            </p>
-          </a>
-          <a class="home-topic-card" href="./stories.html?interest=Climate%20%26%20Environment">
-            <span class="home-topic-card-label">TOPIC</span>
-            <h3 class="home-topic-card-title">Climate &amp; Environment</h3>
-            <p class="home-topic-card-description">
-              Climate change, sustainability, energy, conservation, and the future of the planet.
-            </p>
-          </a>
-          <a class="home-topic-card" href="./stories.html?interest=Culture%20%26%20Entertainment">
-            <span class="home-topic-card-label">TOPIC</span>
-            <h3 class="home-topic-card-title">Culture &amp; Entertainment</h3>
-            <p class="home-topic-card-description">
-              Film, television, books, music, art, celebrity, and the cultural moments people are
-              talking about.
-            </p>
-          </a>
-          <a class="home-topic-card" href="./stories.html?interest=Sports">
-            <span class="home-topic-card-label">TOPIC</span>
-            <h3 class="home-topic-card-title">Sports</h3>
-            <p class="home-topic-card-description">
-              Major games, athletes, leagues, competition, performance, and the business of sports.
-            </p>
-          </a>
         </div>
       </section>
     </main>
@@ -187,11 +73,6 @@
                 <span class="briefing-title">Daily</span>
                 <span class="briefing-copy">A short daily digest of the stories.</span>
               </label>
-              <!-- <label class="briefing-option-card">
-                <input type="radio" name="frequency" value="breaking" />
-                <span class="briefing-title">Breaking News Only</span>
-                <span class="briefing-copy">Major stories only.</span>
-              </label> -->
               <label class="briefing-option-card">
                 <input type="radio" name="frequency" value="weekly" />
                 <span class="briefing-title">Weekly</span>

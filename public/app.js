@@ -1,5 +1,5 @@
 const subscriptionForm = document.getElementById("subscriptionForm");
-const emailInput = document.getElementById("emailInput");
+const emailInput = document.getElementById("emailInput") || document.getElementById("email");
 const subscribeBtn = document.getElementById("subscribeBtn");
 const heroMessage = document.getElementById("heroMessage");
 const modal = document.getElementById("questionModal");
@@ -57,6 +57,21 @@ let pendingEmail = "";
 let currentStep = 1;
 const selectedTopics = new Set();
 const priorityTopics = new Set();
+const onboardingParams = new URLSearchParams(window.location.search);
+const prefillEmailFromQuery = onboardingParams.get("email");
+const sourceTopicFromQuery = onboardingParams.get("source_topic");
+const sourceFromQuery = onboardingParams.get("source");
+const returnToFromQuery = onboardingParams.get("return_to");
+const isStandaloneOnboardingPage = window.location.pathname.toLowerCase().endsWith("/onboarding.html");
+window.ONBOARDING_SOURCE_CONTEXT = {
+  source: sourceFromQuery || null,
+  sourceTopic: sourceTopicFromQuery || null,
+};
+
+if (prefillEmailFromQuery && emailInput) {
+  emailInput.value = prefillEmailFromQuery;
+  pendingEmail = prefillEmailFromQuery.trim().toLowerCase();
+}
 
 const stepTitles = {
   1: "Frequency",
@@ -108,6 +123,14 @@ function openModal() {
 }
 
 function closeModal() {
+  if (isStandaloneOnboardingPage) {
+    const safeReturnTo =
+      typeof returnToFromQuery === "string" && returnToFromQuery.startsWith("/")
+        ? returnToFromQuery
+        : "/stories.html";
+    window.location.href = safeReturnTo;
+    return;
+  }
   modal.classList.add("hidden");
   modal.setAttribute("aria-hidden", "true");
 }
@@ -376,6 +399,8 @@ detailsForm.addEventListener("submit", async (event) => {
         frequency,
         briefingType,
         topics: topicPreferences,
+        source: window.ONBOARDING_SOURCE_CONTEXT.source,
+        source_topic: window.ONBOARDING_SOURCE_CONTEXT.sourceTopic,
         professionalInfo: {
           location,
           industry,
@@ -434,3 +459,10 @@ renderTopicSelectionStep();
 renderPriorityStep();
 updateTopicStepCopy();
 updateStepUI();
+
+if (
+  prefillEmailFromQuery &&
+  isStandaloneOnboardingPage
+) {
+  openModal();
+}

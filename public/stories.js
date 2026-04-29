@@ -67,14 +67,26 @@ const storiesHeading = document.getElementById("storiesHeading");
 const storiesSubheading = document.getElementById("storiesSubheading");
 const storiesCategoryGrid = document.getElementById("storiesCategoryGrid");
 const storiesList = document.getElementById("storiesList");
-const storiesSubscribeForm = document.getElementById("storiesSubscribeForm");
-const storiesEmailInput = document.getElementById("storiesEmailInput");
-const storiesSubscribeBtn = document.getElementById("storiesSubscribeBtn");
-const storiesSubscribeMessage = document.getElementById("storiesSubscribeMessage");
+const topicSubscribeForm = document.getElementById("topicSubscribeForm");
+const stickyEmailInput = document.getElementById("stickyEmailInput");
+const stickySubscribeButton = document.getElementById("stickySubscribeButton");
+const stickySubscribeError = document.getElementById("stickySubscribeError");
 
 const params = new URLSearchParams(window.location.search);
 const selectedInterest = params.get("interest");
 const activeCategory = categories.includes(selectedInterest) ? selectedInterest : categories[0];
+
+function slugifyTopic(value) {
+  return value
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+const activeTopicSlug = slugifyTopic(activeCategory);
+window.TOPIC_SLUG = activeTopicSlug;
+document.body.setAttribute("data-topic-slug", activeTopicSlug);
 
 function renderCategories() {
   storiesCategoryGrid.innerHTML = "";
@@ -109,44 +121,35 @@ function renderStories() {
 renderCategories();
 renderStories();
 
-if (storiesSubscribeForm) {
-  storiesSubscribeForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const email = storiesEmailInput.value.trim().toLowerCase();
-    storiesSubscribeMessage.textContent = "";
-    storiesSubscribeMessage.classList.remove("success", "error");
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
-    if (!email) {
-      storiesSubscribeMessage.textContent = "Please enter a valid email address.";
-      storiesSubscribeMessage.classList.add("error");
+function getTopicSlug() {
+  return window.TOPIC_SLUG || document.body.getAttribute("data-topic-slug") || "unknown";
+}
+
+if (topicSubscribeForm) {
+  topicSubscribeForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const email = stickyEmailInput.value.trim().toLowerCase();
+    stickySubscribeError.textContent = "";
+
+    if (!isValidEmail(email)) {
+      stickySubscribeError.textContent = "Please enter a valid email address.";
+      stickyEmailInput.setAttribute("aria-invalid", "true");
+      stickyEmailInput.focus();
       return;
     }
+    stickyEmailInput.removeAttribute("aria-invalid");
+    stickySubscribeButton.disabled = true;
 
-    try {
-      storiesSubscribeBtn.disabled = true;
-      storiesSubscribeBtn.textContent = "Subscribing...";
-      const response = await fetch("/api/subscribe-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.error || "Unable to subscribe email.");
-      }
-
-      storiesSubscribeMessage.textContent = "Subscribed. You're in for TIME briefings.";
-      storiesSubscribeMessage.classList.add("success");
-      storiesEmailInput.value = "";
-    } catch (error) {
-      storiesSubscribeMessage.textContent = error.message;
-      storiesSubscribeMessage.classList.add("error");
-    } finally {
-      storiesSubscribeBtn.disabled = false;
-      storiesSubscribeBtn.textContent = "Subscribe";
-    }
+    const queryParams = new URLSearchParams({
+      email,
+      source_topic: getTopicSlug(),
+      source: "topic_landing_page",
+      return_to: `${window.location.pathname}${window.location.search}`,
+    });
+    window.location.href = `./onboarding.html?${queryParams.toString()}`;
   });
 }

@@ -12,7 +12,7 @@
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body>
+  <body data-topic-slug="unknown" class="topic-landing-page">
     <header class="site-header">
       <div class="header-inner">
         <a href="./index.html" class="brand-text">TIME Newsletter</a>
@@ -42,21 +42,39 @@
       </section>
     </main>
 
-    <div class="stories-subscribe-strip" aria-label="Subscribe strip">
-      <p class="stories-subscribe-text">Interested in such articles?</p>
-      <form id="storiesSubscribeForm" class="stories-subscribe-form">
-        <label for="storiesEmailInput" class="visually-hidden">Email address</label>
-        <input
-          id="storiesEmailInput"
-          type="email"
-          placeholder="Enter your email"
-          aria-label="Email address"
-          required
-        />
-        <button id="storiesSubscribeBtn" type="submit">Subscribe</button>
-      </form>
-      <p id="storiesSubscribeMessage" class="stories-subscribe-message" role="status" aria-live="polite"></p>
-    </div>
+    <section class="sticky-subscribe-bar" aria-label="Newsletter subscription">
+      <div class="sticky-subscribe-inner">
+        <div class="sticky-subscribe-copy">
+          <div class="sticky-copy-accent" aria-hidden="true"></div>
+          <div>
+            <p class="sticky-subscribe-eyebrow">TIME NEWSLETTERS</p>
+            <h2 class="sticky-subscribe-title">Stories worth your time</h2>
+            <p class="sticky-subscribe-description">
+              Get a sharper, more personal briefing from TIME delivered to your inbox.
+            </p>
+          </div>
+        </div>
+
+        <form class="sticky-subscribe-form" id="topicSubscribeForm">
+          <div class="sticky-input-wrap">
+            <label class="visually-hidden" for="stickyEmailInput">Email address</label>
+            <input
+              id="stickyEmailInput"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required
+            />
+            <p class="sticky-subscribe-error" id="stickySubscribeError" aria-live="polite"></p>
+          </div>
+          <button type="submit" class="sticky-subscribe-button" id="stickySubscribeButton">
+            Subscribe
+          </button>
+          <p class="sticky-subscribe-note">No spam. Unsubscribe anytime.</p>
+        </form>
+      </div>
+    </section>
 
     <script src="./stories.js"></script>
   </body>

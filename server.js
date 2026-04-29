@@ -20,6 +20,8 @@ db.exec(`
     industry TEXT,
     interest_notes TEXT,
     general_interest INTEGER NOT NULL DEFAULT 0,
+    source TEXT,
+    source_topic TEXT,
     profile_completed INTEGER NOT NULL DEFAULT 0,
     subscribed_at TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at TEXT NOT NULL DEFAULT (datetime('now'))
@@ -66,6 +68,8 @@ const hasGeneralInterestColumn = subscriberColumns.some((col) => col.name === "g
 const hasBriefingTypeColumn = subscriberColumns.some((col) => col.name === "briefing_type");
 const hasCompanyColumn = subscriberColumns.some((col) => col.name === "company");
 const hasRoleColumn = subscriberColumns.some((col) => col.name === "role");
+const hasSourceColumn = subscriberColumns.some((col) => col.name === "source");
+const hasSourceTopicColumn = subscriberColumns.some((col) => col.name === "source_topic");
 const subscribersTableSqlRow = db
   .prepare(`SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'subscribers'`)
   .get();
@@ -88,6 +92,8 @@ const needsSubscriberMigration =
   !hasBriefingTypeColumn ||
   !hasCompanyColumn ||
   !hasRoleColumn ||
+  !hasSourceColumn ||
+  !hasSourceTopicColumn ||
   !hasBreakingFrequencyConstraint ||
   subscriberColumns.some(
     (col) =>
@@ -110,12 +116,14 @@ if (needsSubscriberMigration) {
         industry TEXT,
         interest_notes TEXT,
         general_interest INTEGER NOT NULL DEFAULT 0,
+        source TEXT,
+        source_topic TEXT,
         profile_completed INTEGER NOT NULL DEFAULT 0,
         subscribed_at TEXT NOT NULL DEFAULT (datetime('now')),
         updated_at TEXT NOT NULL DEFAULT (datetime('now'))
       );
 
-      INSERT INTO subscribers_new (id, email, frequency, briefing_type, country, company, role, industry, interest_notes, general_interest, profile_completed, subscribed_at, updated_at)
+      INSERT INTO subscribers_new (id, email, frequency, briefing_type, country, company, role, industry, interest_notes, general_interest, source, source_topic, profile_completed, subscribed_at, updated_at)
       SELECT
         id,
         email,
@@ -127,6 +135,8 @@ if (needsSubscriberMigration) {
         industry,
         interest_notes,
         COALESCE(general_interest, 0),
+        ${hasSourceColumn ? "source" : "NULL"},
+        ${hasSourceTopicColumn ? "source_topic" : "NULL"},
         CASE
           WHEN frequency IS NOT NULL AND country IS NOT NULL AND industry IS NOT NULL THEN 1
           ELSE 0
@@ -152,12 +162,14 @@ if (needsSubscriberMigration) {
         industry TEXT,
         interest_notes TEXT,
         general_interest INTEGER NOT NULL DEFAULT 0,
+        source TEXT,
+        source_topic TEXT,
         profile_completed INTEGER NOT NULL DEFAULT 0,
         subscribed_at TEXT NOT NULL DEFAULT (datetime('now')),
         updated_at TEXT NOT NULL DEFAULT (datetime('now'))
       );
 
-      INSERT INTO subscribers_new (id, email, frequency, briefing_type, country, company, role, industry, interest_notes, general_interest, profile_completed, subscribed_at, updated_at)
+      INSERT INTO subscribers_new (id, email, frequency, briefing_type, country, company, role, industry, interest_notes, general_interest, source, source_topic, profile_completed, subscribed_at, updated_at)
       SELECT
         id,
         email,
@@ -169,6 +181,8 @@ if (needsSubscriberMigration) {
         industry,
         interest_notes,
         0,
+        NULL,
+        NULL,
         CASE
           WHEN frequency IS NOT NULL AND country IS NOT NULL AND industry IS NOT NULL THEN 1
           ELSE 0
@@ -226,6 +240,8 @@ const updateSubscriberPreferences = db.prepare(`
       company = NULL,
       role = @role,
       industry = @industry,
+      source = @source,
+      source_topic = @sourceTopic,
       interest_notes = NULL,
       general_interest = @generalInterest,
       profile_completed = 1,
@@ -302,7 +318,7 @@ app.post("/api/subscribe-email", (req, res) => {
 
 app.post("/api/subscribe", (req, res) => {
   try {
-    const { email, frequency, briefingType, topics, professionalInfo } = req.body;
+    const { email, frequency, briefingType, topics, professionalInfo, source, source_topic: sourceTopic } = req.body;
 
     if (!email || typeof email !== "string") {
       return res.status(400).json({ error: "A valid email is required." });
@@ -354,9 +370,11 @@ app.post("/api/subscribe", (req, res) => {
       briefingType,
       generalInterest: 0,
       frequency,
+      source: typeof source === "string" && source.trim() ? source.trim() : null,
+      sourceTopic: typeof sourceTopic === "string" && sourceTopic.trim() ? sourceTopic.trim() : null,
       location: location || null,
-      industry,
-      role,
+      industry: industry || null,
+      role: role || null,
     };
 
     const subscriberId = saveSubscriptionTransaction(payload);
@@ -436,6 +454,8 @@ app.get("/api/subscriptions", (_req, res) => {
           s.industry,
           s.interest_notes AS interestNotes,
           s.general_interest AS generalInterest,
+          s.source,
+          s.source_topic AS sourceTopic,
           s.profile_completed AS profileCompleted,
           s.subscribed_at AS subscribedAt,
           s.updated_at AS updatedAt,
