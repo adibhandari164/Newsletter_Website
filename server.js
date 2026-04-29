@@ -222,8 +222,8 @@ const updateSubscriberPreferences = db.prepare(`
   UPDATE subscribers
   SET frequency = @frequency,
       briefing_type = @briefingType,
-      country = NULL,
-      company = @company,
+      country = @location,
+      company = NULL,
       role = @role,
       industry = @industry,
       interest_notes = NULL,
@@ -344,12 +344,9 @@ app.post("/api/subscribe", (req, res) => {
     if (!professionalInfo || typeof professionalInfo !== "object") {
       return res.status(400).json({ error: "Professional info payload is invalid." });
     }
+    const location = typeof professionalInfo.location === "string" ? professionalInfo.location.trim() : "";
     const industry = typeof professionalInfo.industry === "string" ? professionalInfo.industry.trim() : "";
-    const company = typeof professionalInfo.company === "string" ? professionalInfo.company.trim() : "";
     const role = typeof professionalInfo.role === "string" ? professionalInfo.role.trim() : "";
-    if (!industry || !company || !role) {
-      return res.status(400).json({ error: "Industry, company, and role are required." });
-    }
 
     const payload = {
       email: email.trim().toLowerCase(),
@@ -357,8 +354,8 @@ app.post("/api/subscribe", (req, res) => {
       briefingType,
       generalInterest: 0,
       frequency,
+      location: location || null,
       industry,
-      company,
       role,
     };
 

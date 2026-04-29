@@ -16,15 +16,15 @@ const backStepBtn4 = document.getElementById("backStepBtn4");
 const nextStepBtn3 = document.getElementById("nextStepBtn3");
 const nextStepBtn4 = document.getElementById("nextStepBtn4");
 const briefingTypeLegend = document.getElementById("briefingTypeLegend");
+const topicStepLegend = document.getElementById("topicStepLegend");
+const topicStepHelp = document.getElementById("topicStepHelp");
 const topicSelectionGrid = document.getElementById("topicSelectionGrid");
 const prioritySelectionGrid = document.getElementById("prioritySelectionGrid");
 const topicSelectionCounter = document.getElementById("topicSelectionCounter");
 const prioritySelectionCounter = document.getElementById("prioritySelectionCounter");
 const industrySelect = document.getElementById("industrySelect");
-const companyInput = document.getElementById("companyInput");
+const locationInput = document.getElementById("locationInput");
 const roleSelect = document.getElementById("roleSelect");
-const homeTopicCardGrid = document.getElementById("homeTopicCardGrid");
-const selectAllTopicsBtn = document.getElementById("selectAllTopicsBtn");
 
 // const topicOptions = [
 //   "Politics",
@@ -53,70 +53,10 @@ const topicOptions =[
   "Sports"
 ]
 
-const homeTopicCards = [
-  {
-    id: "daily-general-briefing",
-    label: "DAILY",
-    title: "Daily General Briefing",
-    description:
-      "The day’s most important stories, curated across politics, business, culture, science, and global affairs."
-  },
-  {
-    id: "world-news-politics",
-    label: "TOPIC",
-    title: "World News & Politics",
-    description:
-      "Global affairs, elections, policy, diplomacy, power, and the stories shaping public life."
-  },
-  {
-    id: "tech-ai",
-    label: "TOPIC",
-    title: "Tech & AI",
-    description:
-      "Artificial intelligence, emerging technology, startups, platforms, and the future of innovation."
-  },
-  {
-    id: "business-leadership",
-    label: "TOPIC",
-    title: "Business & Leadership",
-    description:
-      "Markets, companies, strategy, careers, leadership, and the people shaping business."
-  },
-  {
-    id: "health-science",
-    label: "TOPIC",
-    title: "Health & Science",
-    description:
-      "Medical breakthroughs, wellness, psychology, research, space, and scientific discovery."
-  },
-  {
-    id: "climate-environment",
-    label: "TOPIC",
-    title: "Climate & Environment",
-    description:
-      "Climate change, sustainability, energy, conservation, and the future of the planet."
-  },
-  {
-    id: "culture-entertainment",
-    label: "TOPIC",
-    title: "Culture & Entertainment",
-    description:
-      "Film, television, books, music, art, celebrity, and the cultural moments people are talking about."
-  },
-  {
-    id: "sports",
-    label: "TOPIC",
-    title: "Sports",
-    description:
-      "Major games, athletes, leagues, competition, performance, and the business of sports."
-  }
-];
-
 let pendingEmail = "";
 let currentStep = 1;
 const selectedTopics = new Set();
 const priorityTopics = new Set();
-const selectedHomeTopicCards = new Set();
 
 const stepTitles = {
   1: "Frequency",
@@ -187,7 +127,7 @@ function updateBriefingQuestionCopy() {
   }
 
   cards[0].querySelector(".briefing-title").textContent = "General Briefing";
-  cards[1].querySelector(".briefing-title").textContent = "Personalized Briefing";
+  cards[1].querySelector(".briefing-title").textContent = "Focused Briefing";
   cards[2].querySelector(".briefing-title").textContent = "Both";
 
   cards[0].querySelector(".briefing-copy").textContent =
@@ -198,45 +138,23 @@ function updateBriefingQuestionCopy() {
     "Give me the major stories, plus a few stories tailored to me.";
 }
 
+function updateTopicStepCopy() {
+  const briefingType = selectedBriefingType();
+  if (briefingType === "general") {
+    topicStepLegend.textContent = "Any specific interests?";
+    topicStepHelp.textContent = "Optional: select up to 4 topics.";
+    return;
+  }
+  topicStepLegend.textContent = "Choose topics you care about";
+  topicStepHelp.textContent = "Select up to 4 topics.";
+}
+
 function updateTopicCounters() {
   topicSelectionCounter.textContent = `${selectedTopics.size} of 4 selected`;
   prioritySelectionCounter.textContent = `${priorityTopics.size} of 2 prioritized`;
   nextStepBtn3.disabled = false;
 }
 
-function updateSelectAllButtonCopy() {
-  if (!selectAllTopicsBtn) {
-    return;
-  }
-  const allSelected = selectedHomeTopicCards.size === homeTopicCards.length;
-  selectAllTopicsBtn.textContent = allSelected ? "Clear All" : "Select All";
-  selectAllTopicsBtn.setAttribute("aria-pressed", allSelected ? "true" : "false");
-}
-
-function renderHomeTopicCards() {
-  if (!homeTopicCardGrid) {
-    return;
-  }
-
-  homeTopicCardGrid.innerHTML = "";
-  homeTopicCards.forEach((topicCard) => {
-    const isSelected = selectedHomeTopicCards.has(topicCard.id);
-    const card = document.createElement("button");
-    card.type = "button";
-    card.className = `home-topic-card${isSelected ? " is-selected" : ""}`;
-    card.setAttribute("data-home-topic-card", topicCard.id);
-    card.setAttribute("aria-pressed", isSelected ? "true" : "false");
-    card.innerHTML = `
-      <span class="home-topic-card-label">${topicCard.label}</span>
-      <span class="home-topic-card-icon" aria-hidden="true">${isSelected ? "✓" : "+"}</span>
-      <h3 class="home-topic-card-title">${topicCard.title}</h3>
-      <p class="home-topic-card-description">${topicCard.description}</p>
-      <span class="home-topic-card-state">${isSelected ? "Selected" : "Not selected"}</span>
-    `;
-    homeTopicCardGrid.appendChild(card);
-  });
-  updateSelectAllButtonCopy();
-}
 
 function renderTopicSelectionStep() {
   topicSelectionGrid.innerHTML = "";
@@ -352,6 +270,7 @@ document.querySelectorAll('input[name="briefingType"]').forEach((input) => {
     if (!input.checked) {
       return;
     }
+    updateTopicStepCopy();
     goToStep(3);
   });
 });
@@ -375,6 +294,7 @@ document.addEventListener("click", (event) => {
     goToStep(2);
   } else if (input.name === "briefingType") {
     input.checked = true;
+    updateTopicStepCopy();
     goToStep(3);
   }
 });
@@ -434,8 +354,8 @@ detailsForm.addEventListener("submit", async (event) => {
   const frequency = selectedFrequency();
   const briefingType = selectedBriefingType();
   const topicPreferences = selectedTopicPreferences();
+  const location = locationInput.value.trim();
   const industry = industrySelect.value.trim();
-  const company = companyInput.value.trim();
   const role = roleSelect.value.trim();
   if (!frequency || !briefingType) {
     formMessage.textContent = "Please complete frequency and briefing type.";
@@ -445,11 +365,6 @@ detailsForm.addEventListener("submit", async (event) => {
     formMessage.textContent = "Please select no more than 4 topics.";
     return;
   }
-  if (!industry || !company || !role) {
-    formMessage.textContent = "Please complete industry, company, and role.";
-    return;
-  }
-
   try {
     const response = await fetch("/api/subscribe", {
       method: "POST",
@@ -462,8 +377,8 @@ detailsForm.addEventListener("submit", async (event) => {
         briefingType,
         topics: topicPreferences,
         professionalInfo: {
+          location,
           industry,
-          company,
           role,
         },
       }),
@@ -497,14 +412,14 @@ backStepBtn1.addEventListener("click", () => goToStep(1));
 backStepBtn2.addEventListener("click", () => goToStep(2));
 backStepBtn3.addEventListener("click", () => goToStep(3));
 backStepBtn4.addEventListener("click", () => {
-  if (selectedTopics.size === 0) {
+  if (selectedBriefingType() === "general" || selectedTopics.size === 0) {
     goToStep(3);
     return;
   }
   goToStep(4);
 });
 nextStepBtn3.addEventListener("click", () => {
-  if (selectedTopics.size === 0) {
+  if (selectedBriefingType() === "general" || selectedTopics.size === 0) {
     goToStep(5);
     return;
   }
@@ -515,41 +430,7 @@ nextStepBtn4.addEventListener("click", () => {
   goToStep(5);
 });
 
-if (homeTopicCardGrid) {
-  homeTopicCardGrid.addEventListener("click", (event) => {
-    const card = event.target.closest(".home-topic-card");
-    if (!card) {
-      return;
-    }
-
-    const topicCardId = card.dataset.homeTopicCard;
-    if (!topicCardId) {
-      return;
-    }
-
-    if (selectedHomeTopicCards.has(topicCardId)) {
-      selectedHomeTopicCards.delete(topicCardId);
-    } else {
-      selectedHomeTopicCards.add(topicCardId);
-    }
-    renderHomeTopicCards();
-  });
-}
-
-if (selectAllTopicsBtn) {
-  selectAllTopicsBtn.addEventListener("click", () => {
-    const allSelected = selectedHomeTopicCards.size === homeTopicCards.length;
-    selectedHomeTopicCards.clear();
-    if (!allSelected) {
-      homeTopicCards.forEach((topicCard) => {
-        selectedHomeTopicCards.add(topicCard.id);
-      });
-    }
-    renderHomeTopicCards();
-  });
-}
-
-renderHomeTopicCards();
 renderTopicSelectionStep();
 renderPriorityStep();
+updateTopicStepCopy();
 updateStepUI();

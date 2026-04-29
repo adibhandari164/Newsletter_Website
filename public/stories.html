@@ -42,6 +42,22 @@
       </section>
     </main>
 
+    <div class="stories-subscribe-strip" aria-label="Subscribe strip">
+      <p class="stories-subscribe-text">Interested in such articles?</p>
+      <form id="storiesSubscribeForm" class="stories-subscribe-form">
+        <label for="storiesEmailInput" class="visually-hidden">Email address</label>
+        <input
+          id="storiesEmailInput"
+          type="email"
+          placeholder="Enter your email"
+          aria-label="Email address"
+          required
+        />
+        <button id="storiesSubscribeBtn" type="submit">Subscribe</button>
+      </form>
+      <p id="storiesSubscribeMessage" class="stories-subscribe-message" role="status" aria-live="polite"></p>
+    </div>
+
     <script src="./stories.js"></script>
   </body>
 </html>

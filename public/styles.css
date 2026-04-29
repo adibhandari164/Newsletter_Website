@@ -325,6 +325,7 @@ h1 {
   border: 1px solid #d8d1c6;
   background: #fbf9f4;
   color: #111;
+  text-decoration: none;
   text-align: left;
   padding: 1rem;
   position: relative;
@@ -417,7 +418,7 @@ h1 {
 .stories-main {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 2rem 1.2rem 2.8rem;
+  padding: 2rem 1.2rem 7.4rem;
 }
 
 .stories-hero h1 {
@@ -461,6 +462,76 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 0.9rem;
+}
+
+.stories-subscribe-strip {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: auto minmax(280px, 1fr) auto;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.75rem 1rem;
+  background: #fffaf1;
+  border-top: 1px solid #dccfb8;
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+  z-index: 20;
+}
+
+.stories-subscribe-text {
+  margin: 0;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.stories-subscribe-form {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.stories-subscribe-form input {
+  flex: 1;
+  min-width: 220px;
+  border: 1px solid #d9cdb9;
+  border-radius: 8px;
+  padding: 0.62rem 0.7rem;
+  font-size: 0.95rem;
+}
+
+.stories-subscribe-form button {
+  background: var(--time-red);
+  border: 1px solid var(--time-red);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.62rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stories-subscribe-form button:hover {
+  background: var(--time-red-dark);
+}
+
+.stories-subscribe-form button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.stories-subscribe-message {
+  margin: 0;
+  font-size: 0.85rem;
+  min-width: 210px;
+}
+
+.stories-subscribe-message.success {
+  color: #1d6e42;
+}
+
+.stories-subscribe-message.error {
+  color: #8f1f2b;
 }
 
 .story-card {
@@ -1008,6 +1079,20 @@ legend {
 
   .home-topic-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stories-subscribe-strip {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .stories-subscribe-form {
+    width: 100%;
+  }
+
+  .stories-subscribe-message {
+    min-width: 0;
   }
 }
 

@@ -91,14 +91,74 @@
       <section class="interest-blocks-section" aria-label="Interest categories">
         <div class="topic-selection-header">
           <div>
-            <h2>Choose Your Interests</h2>
+            <h2>Explore TIME Topics</h2>
             <p>
-              Select the topics you care about most. We’ll personalize your briefings around them.
+              These are the core themes and story areas available across TIME briefings.
             </p>
           </div>
-          <button type="button" id="selectAllTopicsBtn" class="select-all-pill">Select All</button>
         </div>
-        <div id="homeTopicCardGrid" class="home-topic-card-grid"></div>
+        <div class="home-topic-card-grid">
+          <a class="home-topic-card" href="./stories.html?interest=Daily%20General%20Briefing">
+            <span class="home-topic-card-label">DAILY</span>
+            <h3 class="home-topic-card-title">Daily General Briefing</h3>
+            <p class="home-topic-card-description">
+              The day’s most important stories, curated across politics, business, culture, science,
+              and global affairs.
+            </p>
+          </a>
+          <a class="home-topic-card" href="./stories.html?interest=World%20News%20%26%20Politics">
+            <span class="home-topic-card-label">TOPIC</span>
+            <h3 class="home-topic-card-title">World News &amp; Politics</h3>
+            <p class="home-topic-card-description">
+              Global affairs, elections, policy, diplomacy, power, and the stories shaping public
+              life.
+            </p>
+          </a>
+          <a class="home-topic-card" href="./stories.html?interest=Tech%20%26%20AI">
+            <span class="home-topic-card-label">TOPIC</span>
+            <h3 class="home-topic-card-title">Tech &amp; AI</h3>
+            <p class="home-topic-card-description">
+              Artificial intelligence, emerging technology, startups, platforms, and the future of
+              innovation.
+            </p>
+          </a>
+          <a class="home-topic-card" href="./stories.html?interest=Business%20%26%20Leadership">
+            <span class="home-topic-card-label">TOPIC</span>
+            <h3 class="home-topic-card-title">Business &amp; Leadership</h3>
+            <p class="home-topic-card-description">
+              Markets, companies, strategy, careers, leadership, and the people shaping business.
+            </p>
+          </a>
+          <a class="home-topic-card" href="./stories.html?interest=Health%20%26%20Science">
+            <span class="home-topic-card-label">TOPIC</span>
+            <h3 class="home-topic-card-title">Health &amp; Science</h3>
+            <p class="home-topic-card-description">
+              Medical breakthroughs, wellness, psychology, research, space, and scientific discovery.
+            </p>
+          </a>
+          <a class="home-topic-card" href="./stories.html?interest=Climate%20%26%20Environment">
+            <span class="home-topic-card-label">TOPIC</span>
+            <h3 class="home-topic-card-title">Climate &amp; Environment</h3>
+            <p class="home-topic-card-description">
+              Climate change, sustainability, energy, conservation, and the future of the planet.
+            </p>
+          </a>
+          <a class="home-topic-card" href="./stories.html?interest=Culture%20%26%20Entertainment">
+            <span class="home-topic-card-label">TOPIC</span>
+            <h3 class="home-topic-card-title">Culture &amp; Entertainment</h3>
+            <p class="home-topic-card-description">
+              Film, television, books, music, art, celebrity, and the cultural moments people are
+              talking about.
+            </p>
+          </a>
+          <a class="home-topic-card" href="./stories.html?interest=Sports">
+            <span class="home-topic-card-label">TOPIC</span>
+            <h3 class="home-topic-card-title">Sports</h3>
+            <p class="home-topic-card-description">
+              Major games, athletes, leagues, competition, performance, and the business of sports.
+            </p>
+          </a>
+        </div>
       </section>
     </main>
 
@@ -124,17 +184,17 @@
             <div class="briefing-options">
               <label class="briefing-option-card">
                 <input type="radio" name="frequency" value="daily" />
-                <span class="briefing-title">Daily briefing</span>
+                <span class="briefing-title">Daily</span>
                 <span class="briefing-copy">A short daily digest of the stories.</span>
               </label>
-              <label class="briefing-option-card">
+              <!-- <label class="briefing-option-card">
                 <input type="radio" name="frequency" value="breaking" />
                 <span class="briefing-title">Breaking News Only</span>
                 <span class="briefing-copy">Major stories only.</span>
-              </label>
+              </label> -->
               <label class="briefing-option-card">
                 <input type="radio" name="frequency" value="weekly" />
-                <span class="briefing-title">Weekly briefing</span>
+                <span class="briefing-title">Weekly</span>
                 <span class="briefing-copy">A curated weekly roundup of stories and analysis.</span>
               </label>
             </div>
@@ -165,8 +225,8 @@
           </fieldset>
 
           <fieldset class="form-step hidden" data-step="3">
-            <legend>Choose topics you care about</legend>
-            <p class="topic-help">Select up to 4 topics.</p>
+            <legend id="topicStepLegend">Choose topics you care about</legend>
+            <p id="topicStepHelp" class="topic-help">Select up to 4 topics.</p>
             <p id="topicSelectionCounter" class="selection-counter">0 of 4 selected</p>
             <div id="topicSelectionGrid" class="topics-grid"></div>
             <div class="step-actions">
@@ -186,11 +246,15 @@
           </fieldset>
 
           <fieldset class="form-step hidden" data-step="5">
-            <legend>5) Tell us about your professional background</legend>
+            <legend>Optional: Help us make your briefing more relevant.</legend>
             <div class="profile-grid">
               <label>
+                Location
+                <input id="locationInput" type="text" placeholder="City or country" />
+              </label>
+              <label>
                 Industry
-                <select id="industrySelect" required>
+                <select id="industrySelect">
                   <option value="">Select industry</option>
                   <option>Technology</option>
                   <option>Healthcare</option>
@@ -205,12 +269,8 @@
                 </select>
               </label>
               <label>
-                Company
-                <input id="companyInput" type="text" placeholder="Company name" required />
-              </label>
-              <label>
                 Role
-                <select id="roleSelect" required>
+                <select id="roleSelect">
                   <option value="">Select role</option>
                   <option>Founder / Co-founder</option>
                   <option>C-Level Executive</option>
