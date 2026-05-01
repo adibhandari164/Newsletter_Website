@@ -2,17 +2,12 @@
   "name": "newsletter_website",
   "version": "1.0.0",
   "description": "TIME-style newsletter subscription website with preference capture",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "npx serve public",
+    "dev": "npx serve public"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "better-sqlite3": "^12.9.0",
-    "express": "^5.2.1"
-  }
+  "type": "commonjs"
 }

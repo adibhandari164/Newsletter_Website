@@ -337,19 +337,6 @@ subscriptionForm.addEventListener("submit", async (event) => {
     subscribeBtn.disabled = true;
     subscribeBtn.textContent = "Subscribing...";
     heroMessage.textContent = "";
-    const response = await fetch("/api/subscribe-email", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: pendingEmail }),
-    });
-
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.error || "Unable to subscribe email.");
-    }
-
     heroMessage.textContent = "You're in. Let's personalize your TIME newsletters.";
     heroMessage.classList.add("success");
     openModal();
@@ -389,31 +376,6 @@ detailsForm.addEventListener("submit", async (event) => {
     return;
   }
   try {
-    const response = await fetch("/api/subscribe", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: pendingEmail,
-        frequency,
-        briefingType,
-        topics: topicPreferences,
-        source: window.ONBOARDING_SOURCE_CONTEXT.source,
-        source_topic: window.ONBOARDING_SOURCE_CONTEXT.sourceTopic,
-        professionalInfo: {
-          location,
-          industry,
-          role,
-        },
-      }),
-    });
-
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.error || "Unable to save details.");
-    }
-
     formMessage.textContent = "Preferences saved. Welcome to TIME Newsletter.";
     heroMessage.textContent = "You are subscribed. Thank you for joining TIME Newsletter.";
     detailsForm.reset();

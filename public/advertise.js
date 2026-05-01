@@ -29,19 +29,6 @@ advertiseForm.addEventListener("submit", async (event) => {
   }
 
   try {
-    const response = await fetch("/api/advertise", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.error || "Unable to submit inquiry.");
-    }
-
     adFormMessage.textContent = "Inquiry submitted successfully. Our team will contact you soon.";
     advertiseForm.reset();
   } catch (error) {
